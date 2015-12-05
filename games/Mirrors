@@ -1,0 +1,855 @@
+--Started programming 9/28/2013 9:38PM Pacific Time
+--Break: 9/28/2013 10:22PM Pacific Time (REASON: Sleep)
+
+--Day 1 = 44 minutes
+
+--Begin Day 2
+--Resumed programming 9/29/2013 9:46AM Pacific Time
+--Finsihed programming 9/29/2013 10:49AM Pacific Time
+
+--Day 2 = 1 hour, 3 minutes
+
+--Total: 1 hour, 47 minutes
+
+--(This does not count for the time I spent building the levels)
+
+--local currentVersion = 1.0 -- do not edit, OR THE WORLD WILL EXPLODDDDDDDDDDDDDDDDDEEEEEEEEEE!!!!!!!!!
+
+local levelBuilder = false
+local level = 1
+
+tArgs = { ... }
+
+if #tArgs >= 1 then
+	if tonumber( tArgs[1] ) == nil then
+		if tArgs[1] == "levelbuilder" then
+			levelBuilder = true
+			level = -1
+		elseif tArgs[1] == "load" then
+			if tArgs[2] ~= nil then
+				fs.makeDir( ".mirrors/user-levels" )
+			else
+				print("Usage: " ..shell.getRunningProgram().. " load <levelID>")
+				error()
+			end
+		else
+			print("Usage: " ..shell.getRunningProgram().. " [level#/levelbuilder/load] [levelID]")
+			error()
+		end
+	else
+		level = tonumber( tArgs[1] )
+	end
+end
+
+----------------------------------------
+--- xXm0dzXx Default Programming API ---
+-- All my programs will have this :DD --
+----------------------------------------
+
+local x,y = term.getSize()
+
+local function cPrint( txt ) --Version 2.0 of cPrint
+	local function printC( text )
+		x2,y2 = term.getCursorPos()
+		term.setCursorPos(math.ceil((x / 2) - (text:len() / 2)), y2)
+		write(text.. "\n")
+	end
+	
+	if type(txt) == "string" then
+		printC( txt )
+	elseif type(txt) == "table" then
+		for i=1,#txt do
+			printC( txt[i] )
+		end
+	end
+end
+
+local drawingBoard = {
+	["A"] = colors.white,
+	["B"] = colors.orange,
+	["C"] = colors.magenta,
+	["D"] = colors.lightBlue,
+	["E"] = colors.yellow,
+	["F"] = colors.lime,
+	["G"] = colors.pink,
+	["H"] = colors.gray,
+	["I"] = colors.lightGray,
+	["J"] = colors.cyan,
+	["K"] = colors.purple,
+	["L"] = colors.blue,
+	["M"] = colors.brown,
+	["N"] = colors.green,
+	["O"] = colors.red,
+	["P"] = colors.black,
+}
+
+local function advWrite( pos1, pos2, str )
+	for i=1,#str do
+		local symb = drawingBoard[ string.sub( str, i, i) ]
+		term.setCursorPos( pos1 + (i-1) , pos2 )
+		if symb then
+			term.setBackgroundColour( symb )
+			write(" ")
+		end
+	end
+end
+
+local function setBG( col, colz )
+	term.setBackgroundColour( col )
+	term.clear()
+	term.setCursorPos(1,1)
+	term.setTextColour( colz )
+end
+
+local function getLines( path )
+	local tLines = {}
+	local file = fs.open( path, "r" )
+	if file then
+		line = file.readLine()
+		while line do
+			tLines[ #tLines+1 ] = line
+			line = file.readLine()
+		end
+		file.close()
+	end
+	
+	return tLines
+end
+
+-- End of API --
+
+local mirrors = {}
+
+local laX = 0
+local laY = 0
+
+local endX = 0
+local endY = 0
+
+local lazerColor = colors.red
+
+local inventory = {}
+local selectedItem = 1
+
+local lazerDirection = ">"
+local lazerDirections = {
+	"^",
+	"v",
+	"<",
+	">",
+}
+
+term.setTextColour( colors.red )
+term.setBackgroundColour( colors.white )
+
+term.setCursorPos(1, y/2-2 )
+cPrint("Lazer")
+term.setTextColour( colors.blue )
+cPrint("Game")
+term.setTextColour( colors.red )
+sleep(3)
+
+function rotate90( lDir )
+	
+	for i=1,#lDir do
+		local dahChar = string.sub( lDir, i, i )
+		if dahChar == "v" then
+			--lDir = string.gsub( lDir, dahChar, "<")
+			
+			lDir = "<"
+		elseif dahChar == "^" then
+			--lDir = string.gsub( lDir, dahChar, ">")
+			
+			lDir = ">"
+		elseif dahChar == ">" then
+			--lDir = string.gsub( lDir, dahChar, "%^" )
+			
+			lDir = "^"
+		elseif dahChar == "<" then
+			--lDir = string.gsub( lDir, dahChar, "v" )
+			
+			lDir = "v"
+		end
+	end
+	
+	return lDir
+	
+	--[[
+	if mirrors[laX] ~= nil then
+			if mirrors[laX][laY] ~= nil then
+				local ddir = mirrors[laX][laY].dir
+				
+				if(string.sub(ddir, 1, 1) == "+")then
+					for i=1,#lazerDirection do
+						local dir = string.sub(lazerDirection, i, i)
+						
+						for j=1,#lazerDirections do
+							if lazerDirections[ j ] == dir then
+								local nu = j + tonumber( string.sub( ddir, 2, 2 ) )
+								if nu <= #lazerDirections then
+									ddir = lazerDirections[ nu ]
+								else
+									ddir = lazerDirections[ nu - #lazerDirections ]
+								end
+							end
+						end
+					end
+				end
+				
+				lazerDirection = ddir
+				sym = mirrors[laX][laY].symbol
+			end
+		end]]
+end
+
+function rotate902( lDir )
+	
+	for i=1,#lDir do
+		local dahChar = string.sub( lDir, i, i )
+		if dahChar == "v" then
+			--lDir = string.gsub( lDir, dahChar, ">")
+			
+			lDir = ">"
+		elseif dahChar == "^" then
+			--lDir = string.gsub( lDir, dahChar, "<")
+			
+			lDir = "<"
+		elseif dahChar == ">" then
+			--lDir = string.gsub( lDir, dahChar, "v" 
+			
+			lDir = "v"
+		elseif dahChar == "<" then
+			--lDir = string.gsub( lDir, dahChar, "%^" )
+			
+			lDir = "^"
+		end
+	end
+	
+	return lDir
+end
+
+function addMirror( x, y, symbol, dir, txtcolor, bgcolor )
+	x = tonumber( x )
+	y = tonumber( y )
+	if mirrors[x] == nil then
+		mirrors[x] = {}
+	end
+	
+	if txtcolor == nil then
+		txtcolor = colors.cyan
+	end
+	
+	if bgcolor == nil then
+		bgcolor = colors.white
+	end
+	
+	mirrors[x][y] = {}
+	mirrors[x][y].symbol = symbol
+	mirrors[x][y].dir = dir
+	mirrors[x][y].txtcolor = txtcolor
+	mirrors[x][y].bgcolor = bgcolor
+	
+	term.setCursorPos( x, y )
+	term.setTextColour( txtcolor )
+	term.setBackgroundColour( bgcolor )
+	write( symbol )
+end
+
+local function right( text )
+	local _, yy = term.getCursorPos()
+	term.setCursorPos(x-#(text)+1, yy)
+end
+	
+function drawHotbar()
+	term.setCursorPos(1,y-1)
+	
+	term.setTextColour(colors.lightGray)
+	term.setBackgroundColour( colors.gray )
+	term.clearLine()
+	write("Inventory")
+	
+	right("[Clear] [Undo]")
+	
+	term.setTextColour( colors.magenta )
+	write("[")
+	term.setTextColour( colors.red )
+	write("Clear")
+	term.setTextColour( colors.magenta )
+	write("] ")
+	
+	term.setTextColour( colors.magenta )
+	write("[")
+	term.setTextColour( colors.purple )
+	if levelBuilder then
+		write("Save")
+	else
+		write("Undo")
+	end
+	term.setTextColour( colors.magenta )
+	write("]")
+	
+	term.setCursorPos(1,y)
+	term.setBackgroundColour(colors.lightGray)
+	term.clearLine()
+	
+	for i=1,#inventory do
+		term.setCursorPos(i,y)
+		
+		if i == selectedItem then
+			term.setBackgroundColour(colors.gray)
+		else
+			term.setBackgroundColour(colors.lightGray)
+		end
+		
+		term.setTextColour( inventory[i].color )
+		write( inventory[i].symbol )
+	end
+	
+	for i=1,x do
+		for j=1,y-2 do
+			if i == x or i == 1 or j == 1 then
+				if (i == laX and j == laY) or (i == endX and j == endY) then else
+					term.setBackgroundColour( colors.gray )
+					term.setCursorPos(i, j)
+					write(" ")
+				end
+			end
+		end
+	end
+	
+	term.setTextColour( colors.cyan )
+	term.setCursorPos( 1, 1 )
+	write("Lazer Game - Level " ..level)
+	
+	right("[Start Level]")
+	write("[Start Level]")
+end
+
+function addItem( color, symbol, dir )
+	local iID = #inventory +1
+	inventory[ iID ] = {}
+	inventory[ iID ].color = color
+	inventory[ iID ].symbol = symbol
+	inventory[ iID ].direction = dir
+end
+
+function addStart( x, y )
+	x = tonumber( x )
+	y = tonumber( y )
+	laX = x
+	laY = y
+	term.setCursorPos(x,y)
+	term.setTextColour( lazerColor )
+	term.setBackgroundColour( colors.cyan )
+	write("X")
+end
+
+function addEnd( x, y )
+	x = tonumber( x )
+	y = tonumber( y )
+	endX = x
+	endY = y
+	term.setCursorPos(x,y)
+	term.setTextColour( lazerColor )
+	term.setBackgroundColour( colors.lightGray )
+	write("X")
+end
+
+function extendLazer()
+	term.setBackgroundColour( colors.green ) --incase of error, then the text is visible
+	
+	if lazerDirection == nil then
+		term.setCursorPos( 1, 1 )
+		write("nil")
+	else
+		for i=1,#lazerDirection do
+			local dir = string.sub(lazerDirection, i, i)
+			
+			if dir == lazerDirections[1] then
+				laY = laY -1
+			elseif dir == lazerDirections[2] then
+				laY = laY +1
+			elseif dir == lazerDirections[3] then
+				laX = laX -1
+			elseif dir == lazerDirections[4] then
+				laX = laX +1
+			end
+		end
+		
+		local sym = " "
+		
+		local lColor = lazerColor
+		
+		if mirrors[laX] ~= nil then
+			if mirrors[laX][laY] ~= nil then
+				mirror = mirrors[laX][laY]
+				
+				local ddir = mirror.dir
+				
+				if(type( ddir ) ~= "string")then
+					ddir = ddir( lazerDirection )
+				end
+				
+				lazerDirection = ddir
+				sym = mirror.symbol
+				term.setTextColour( mirror.txtcolor )
+				
+				if mirror.bgcolor ~= lColor and mirror.bgcolor ~= colors.white then
+					lColor = mirror.bgcolor
+				end
+			end
+		end
+		
+		term.setCursorPos( laX, laY )
+		term.setBackgroundColour( lColor )
+		write( sym )
+		
+		while true do
+			term.setBackgroundColour( colors.gray ) --incase of error, then the text is visible
+			term.setTextColour( colors.cyan )
+			term.setCursorPos( 1, 1 )
+			right(" [Stop Level]")
+			write(" [Stop Level]")
+			
+			dahtimer = os.startTimer( 0 )
+			event, key, _x, _y = os.pullEvent()
+			if event == "timer" and key == dahtimer then
+				break
+			elseif event == "mouse_click" then
+				if key == 1 and _y == 1 then
+					loadLevel( level )
+				end
+			end
+		end
+	end
+end
+
+function startGame()
+	local failed = false
+	
+	while true do
+		extendLazer()
+		
+		if laX == endX and laY == endY then
+			break
+		elseif laX == x or laY == y-1 or laX == 1 or laY == 1 then
+			failed = true
+			break
+		end
+	end
+	
+	term.setCursorPos(1, y/2-1)
+	term.setTextColour( colors.blue )
+	term.setBackgroundColour( colors.red )
+	if failed then
+		cPrint("======FAILED!======")
+		cPrint("You failed the game")
+		cPrint("==Press==Any==Key==")
+	else
+		cPrint("==Congratulations==")
+		cPrint("You beat the level!")
+		cPrint("==Press==Any==Key==")
+	end
+	
+	while true do
+		event, key = os.pullEvent("key")
+		if key ~= 1 then
+			return failed
+		end
+	end
+end
+
+local levelBuilderData = {}
+
+function clear()
+	history = {}
+	mirrors = {}
+	levelBuilderData = {}
+	
+	laX = 0
+	laY = 0
+	endX = 0
+	endY = 0
+	lazerColor = colors.red
+	inventory = {}
+	selectedItem = 1
+	lazerDirection = ">"
+	lazerDirections = { --incase i decide to make a item that switches directions
+		"^",
+		"v",
+		"<",
+		">",
+	}
+	
+	term.setTextColour( colors.red )
+	term.setBackgroundColour( colors.white )
+
+	term.clear()
+end
+
+local history = {}
+local playing = true
+
+function undo()
+	tHistory = history[ #history ]
+	history[ #history ] = nil
+	
+	if tHistory ~= nil then
+		for i=1,x do
+			if mirrors[i] ~= nil then
+				for j=1,y do
+					if mirrors[i][j] ~= nil then
+						term.setCursorPos( i, j )
+						term.setBackgroundColour( colors.white )
+						write(" ")
+					end
+				end
+			end
+		end
+		
+		mirrors = tHistory.mirrors
+		inventory = tHistory.inventory
+		
+		for i=1,x do
+			if mirrors[i] ~= nil then
+				for j=1,y do
+					local mirror = mirrors[i][j]
+					if mirror ~= nil then
+						term.setCursorPos( i, j )
+						term.setTextColour( colors.cyan )
+						write( mirror.symbol )
+					end
+				end
+			end
+		end
+	end
+	
+	--[[
+	mirrors[x][y] = {}
+	mirrors[x][y].symbol = symbol
+	mirrors[x][y].dir = dir]]
+end
+
+local function info( text )
+	for i=1,#text do
+		term.setCursorPos(2, y-2-#text+i)
+		
+		term.setTextColour( colors.cyan )
+		term.setBackgroundColour( colors.white )
+		write( text[i] )
+	end
+end
+
+function endgame()
+	laX = x
+	laY = y-2
+	return ""
+end
+
+function split(pString, pPattern)
+   local Table = {}  -- NOTE: use {n = 0} in Lua-5.0
+   local fpat = "(.-)" .. pPattern
+   local last_end = 1
+   local s, e, cap = pString:find(fpat, 1)
+   while s do
+          if s ~= 1 or cap ~= "" then
+         table.insert(Table,cap)
+          end
+          last_end = e+1
+          s, e, cap = pString:find(fpat, last_end)
+   end
+   if last_end <= #pString then
+          cap = pString:sub(last_end)
+          table.insert(Table, cap)
+   end
+   return Table
+end
+
+function loadMapData( mapData )
+	for i=1,#mapData do
+		objectData = split( mapData[i], "!" )
+		if objectData ~= nil and #objectData == 3 then
+			if objectData[1] == "/" then
+				func = rotate90
+			elseif objectData[1] == "|" then
+				func = "v"
+			elseif objectData[1] == "\\" then
+				func = rotate902
+			end
+			
+			loadObject( objectData[1], func, objectData[2], objectData[3] )
+		end
+	end
+end
+
+if http then
+	term.setTextColour( colors.white )
+	term.setBackgroundColour( colors.black )
+	term.clearLine()
+	
+	term.setCursorPos(1, y)
+	write("Downloading maps...")
+	
+	status = "failed"
+	
+	function get(paste)
+		local response = http.get(
+			"http://pastebin.com/raw.php?i="..textutils.urlEncode( paste )
+		)
+		
+		local lines = {}
+			
+		if response then
+			local sResponse = response.readLine()
+			
+			term.setCursorPos(1, y-1)
+			term.clearLine()
+			write( sResponse )
+			
+			repeat
+				if sResponse ~= nil then
+					lines[ #lines +1 ] = sResponse
+					sResponse = response.readLine()
+				end
+			until sResponse == nil
+			response.close()
+			
+			status = "complete [" .. #lines .. "]"
+			return lines
+		else
+			status = "no response"
+		end
+	end
+	
+    levels = get("2eheura0")
+	
+	term.clearLine()
+	
+	term.setCursorPos(1, y)
+	write("Downloading maps... " ..status)
+	sleep(1)
+end
+
+function loadObject( symbol, direction, _x, _y, deletingObject )
+	_x = tonumber( _x )
+	_y = tonumber( _y )
+		
+	if symbol == "S" then
+		addStart( _x, _y )
+	elseif symbol == "E" then
+		addEnd( _x, _y )
+	elseif symbol == "X" then
+		addMirror( _x, _y, " ", endgame, colors.black, colors.gray )
+	elseif symbol == "J" then
+		if mirrors[ _x ] ~= nil then
+			if mirrors[ _x ][ _y ] ~= nil then
+				mirrors[ _x ][ _y ] = nil
+			end
+		end
+		
+		term.setCursorPos( _x, _y )
+		term.setBackgroundColour( colors.white )
+		write(" ")
+	else
+		addMirror(_x, _y, symbol, direction)
+	end
+end
+
+function loadLevel( lev )
+	level = lev
+	
+	clear()
+	
+	if levelBuilder then
+		addItem( colors.cyan, "/", rotate90 )
+		addItem( colors.cyan, "|", "v" )
+		addItem( colors.cyan, "\\", rotate902 )
+		addItem( colors.red, "S", "" )
+		addItem( colors.red, "E", "" )
+		addItem( colors.red, "X", endgame )
+		addItem( colors.red, "J", endgame )
+	elseif lev == -1 then
+		addItem( colors.cyan, "/", rotate90 )
+		addItem( colors.cyan, "|", "v" )
+		addItem( colors.cyan, "\\", rotate902 )
+		
+		addStart( 1, 2 )
+		addEnd( x, y-2 )
+		
+		term.setTextColour( colors.cyan )
+		term.setBackgroundColour( colors.white )
+		term.setCursorPos( 2, y-3 )
+	elseif lev == 1 then
+		addItem( colors.cyan, "\\", rotate902 )
+		addStart( 3, 3 )
+		addEnd( x-2, y-3 )
+		
+		info( {
+			"Welcome to Lazer Game!",
+			"Click anywhere to place a mirror",
+			} )
+	elseif lev == 2 then
+		addItem( colors.cyan, "\\", rotate902 )
+		addItem( colors.cyan, "/", rotate90 )
+		
+		addStart( 3, 3 )
+		addEnd( 3, 6 )
+		
+		info( {
+			"You will need to use",
+			"mirrors to solve puzzles",
+			} )
+	elseif lev == 3 then
+		addItem( colors.cyan, "|", "v" )
+		
+		addMirror( 6, 6, "/", rotate90 )
+		addMirror( 6, 3, "/", rotate90 )
+		
+		addMirror( 12, 9, "/", rotate90 )
+		
+		addStart( 3, 6 )
+		addEnd( 3, 9 )
+		
+		info( {
+			"This mirror will send the lazer",
+			"down, regarding which side it got hit.",
+			} )
+	elseif lev == 4 then
+		addStart( 3, 6 )
+		addEnd( 3, 9 )
+		
+		addMirror( 12, 9, " ", endgame, colors.black, colors.gray )
+		
+		addItem( colors.cyan, "\\", rotate902 )
+		addItem( colors.cyan, "/", rotate90 )
+		
+		info( {
+			"Good Luck!",
+			} )
+	elseif lev >= 5 then
+		if http == nil then
+			info( { "Sorry! The HTTP API is needed to finish the game." } )
+		else
+			if levels[ lev - 4 ] ~= nil then
+				levelBuilder = true
+				loadMapData( get( levels[ lev - 4 ] ) )
+				levelBuilder = false
+				
+				if lev == 5 then
+					addItem( colors.cyan, "\\", rotate902 )
+				elseif lev == 6 then
+					info( { 
+					"Protip: Did you know you",
+					"can place mirrors over other mirrors?",
+					} )
+					
+					addItem( colors.cyan, "\\", rotate902 )
+				else
+					info( {
+					"Oh noez! Your client",
+					"is out of date! Update then do:",
+					"> " ..shell.getRunningProgram().. " " ..lev,
+					"to resume your progress",
+					} )
+				end
+			else
+				info( { 
+				"There are no more levels for the game. [" ..#levels.. "]", 
+				"In the meantime, how about opening the sandbox?",
+				"Usage: " ..shell.getRunningProgram().. " levelbuilder",
+				} )
+			end
+		end
+	end
+	
+	drawHotbar()
+	
+	while playing do
+		local event, key, _x, _y = os.pullEvent()
+		
+		if event == "mouse_click" or (event == "mouse_drag" and level == -1) then
+			if key == 1 then
+				if _y == y and inventory[_x] ~= nil then
+					selectedItem = _x
+				elseif _y ~= 1 and _y ~= y-1 and _x ~= 1 and _x ~= x and not (_x == laX and _y == laY) and not (_x == endX and _y == endY) then
+					stopplacement = false
+					if mirrors[_x] ~= nil then
+						if mirrors[_x][_y] ~= nil then
+							if mirrors[_x][_y].symbol == " " and not levelBuilder then
+								stopplacement = true
+							end
+						end
+					end
+					
+					if not stopplacement and inventory ~= nil and inventory[ selectedItem ] ~= nil then
+						loadObject( inventory[ selectedItem ].symbol, inventory[ selectedItem ].direction, _x, _y )
+						
+						if levelBuilder then
+							levelBuilderData[ #levelBuilderData +1 ] = inventory[ selectedItem ].symbol .. "!" .. _x .. "!" .. _y
+						end
+						
+						if lev ~= -1 then
+							local resetEnd = false
+							
+							for i=selectedItem, #inventory do
+								if inventory[i+1] ~= nil then
+									inventory[i] = inventory[i+1]
+									resetEnd = true
+								elseif resetEnd or #inventory == 1 then
+									inventory[i] = nil
+								end
+							end
+						end
+						
+						history[ #history +1 ] = {}
+						history[ #history ].mirrors = mirrors
+						history[ #history ].inventory = inventory
+					end
+				elseif _y == 1 then
+					failed = startGame()
+					
+					if failed or lev == -1 then
+						loadLevel( lev )
+					else
+						loadLevel( lev +1 )
+					end
+				elseif _y == y-1 then
+					if _x >= x - 6 and #history ~= 0 then
+						if levelBuilder then
+							info({"Saving...          "})
+							fs.delete( "custom-level" )
+							file = fs.open( "custom-level", "w" )
+							for i=1,#levelBuilderData do
+								if levelBuilderData[i] ~= "" then
+									if i == #levelBuilderData then
+										file.write( levelBuilderData[i] )
+									else
+										file.writeLine( levelBuilderData[i] )
+									end
+								end
+							end
+							file.close()
+							info({"Saving... Complete!"})
+							os.startTimer( 3 )
+						else
+							--undo()
+							
+							info( {
+								"Sorry! The undo button is broken.",
+								"Please use the clear button instead.",
+								} )
+						end
+					elseif _x >= x - 13 then
+						loadLevel( lev )
+					end
+				end
+				
+				drawHotbar()
+			end
+		elseif event == "timer" then
+			info({"                   "})
+		end
+	end
+end
+
+loadLevel( level )
