@@ -1,0 +1,70 @@
+local w,h = term.getSize()
+ 
+if fs.exists("/Shield/Apps/") and not fs.isDir("/Shield/Apps") then
+  print("Please delete 'items' then open the program.")
+  return
+elseif not fs.isDir("/Shield/Apps/") then
+  fs.makeDir("/Shield/Apps/")
+end
+ 
+local items = {}
+local it2 = {}
+ 
+function loadMenuItems()
+  for i,v in pairs(fs.list("/Shield/Apps")) do
+    local ok, err = pcall(setfenv(loadfile("/Shield/Apps/"..v),getfenv()))
+    if ok then
+      items[i] = err
+    end
+  end
+end
+ 
+function clearScr()
+  term.clear()
+  term.setCursorPos(1,1)
+end
+ 
+function printCentered(string,y)
+  local x = (w/2)-(#string/2)
+  term.setCursorPos(x,y)
+  term.write(string)
+end
+ 
+function renderMenu()
+  term.setBackgroundColour(colours.grey)
+  term.setTextColour(colours.white)
+  term.clear()
+  term.setCursorPos(2,2)
+  term.write("Start")
+  local itemsOnX = 0
+  local y = 4
+  local lastX = 2
+  for i,v in pairs(items) do
+    if itemsOnX == 3 then
+      y = (y+y)+1
+      itemsOnX = 0
+      lastX = 2
+    end
+    itemsOnX = itemsOnX + 1
+    local x = lastX
+    paintutils.drawFilledBox(x,y,x+14,y+3,v.nBackColour)
+    term.setCursorPos(x,y+3)
+    term.write(v.sName)
+    items[i].x = x
+    items[i].y = y
+    lastX = lastX + 16
+  end
+end
+ 
+while true do
+  loadMenuItems()
+  renderMenu()
+  local e = {os.pullEventRaw()}
+  if e[1] == "mouse_click" then
+    for i,v in pairs(items) do
+      if e[3] >= v.x and e[3] <= v.x+14 and e[4] >= v.y and e[4] <= v.y+3 then
+        v.fFunction()
+      end
+    end
+  end
+end
