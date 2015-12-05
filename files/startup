@@ -1,5 +1,4 @@
-if fs.exists("/Shield/System/APIs") then os.loadAPI("/Shield/System/APIs/denver")
-else os.loadAPI("/Shield/APIs/denver")
+os.loadAPI("/Shield/APIs/denver")
 term.setBackgroundColour(colours.green)
 term.setTextColour(colours.white)
 term.clear()
