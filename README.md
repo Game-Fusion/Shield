@@ -7,14 +7,16 @@ Full details:
 
 • Runs under Revolution's new "Denver" API!
 
-• Will play games released for the console, along with standard PC games
+• Will play games released for the console
 
-• Will run a modded version of the SmartPlay series' Vinyl player (100% degraphixed, less waiting times and a bit faster in general)
+• Runs a modded version of the SmartPlay series' Vinyl player (100% degraphixed, less waiting times and a bit faster in general)
 
 • Will play NBS files (whether using note or not, I'm not sure yet)
 
-• Will have an OS-like menu (like Windows 8 but not as bad [less crowded and clunky])
+• Uses a snazzy menu with different tile options [thanks to Gonow32]
 
 • Will use "Ice Browser" by Cutecurtain to browse/modify files in style
+
+• Future proof - Rev have no plans to replace it anytime soon!
 
 • And more unconfirmed details!
