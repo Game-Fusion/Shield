@@ -1,0 +1,23 @@
+return {
+  sName = "Information",
+  nBackColour = colours.green
+  function = function()
+  term.setBackgroundColour(colours.green)
+  term.setTextColour(colours.white)
+  term.clear()
+  denver.center(2, "Shield by Revolution")
+  denver.center(3, "Info and Credits")
+  denver.center(5, "Menu: Gonow32")
+  denver.center(6, "Main programming: Mr_Iron2")
+  denver.center(8, "Additional Help:")
+  denver.center(10, "LMNet")
+  denver.center(11, "Cutecurtain (Ice Browser)")
+  denver.center(16, "Click here to return to the menu")
+  while true do local evt, button, y = os.pullEvent("mouse_click")
+  if y == 16 then
+  term.clear()
+  shell.run("/Shield/Menu")
+  else
+  end
+ end
+end,
