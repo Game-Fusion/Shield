@@ -1,8 +1,8 @@
 return {
   sName = "Information",
-  nBackColour = colours.green
+  nBackColour = colours.blue
   function = function()
-  term.setBackgroundColour(colours.green)
+  term.setBackgroundColour(colours.blue)
   term.setTextColour(colours.white)
   term.clear()
   denver.center(2, "Shield by Revolution")
