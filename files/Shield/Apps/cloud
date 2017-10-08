@@ -1,0 +1,7 @@
+return {
+  sName = "Shield Cloud",
+  nBackColour = colours.green,
+  fFunction = function()
+  shell.run("/Shield/Cloud")
+  end,
+}
