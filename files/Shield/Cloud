@@ -1,0 +1,59 @@
+function gridTitle()
+term.setBackgroundColour(colours.blue)
+term.setTextColour(colours.white)
+term.clear()
+denver.center(1,"Revolution Cloud")
+term.setBackgroundColour(colours.white)
+term.setCursorPos(1,2)
+term.clearLine()
+term.setBackgroundColour(colours.blue)
+end gridTitle()
+ 
+denver.center(4,"Welcome to Revolution Cloud!")
+denver.center(5,"This is Revolution's game streaming")
+denver.center(6,"service. You can stream great games straight")
+denver.center(7,"from your Shield!.")
+sleep(2)
+function render()
+gridTitle()
+term.setTextColour(colours.white)
+denver.center(5,"Select a Game:")
+denver.center(7,"* Cookie Clicker")
+denver.center(9,"* BATTLE")
+denver.center(11,"* Solitaire")
+denver.center(13,"* TRON")
+denver.center(15,"* Skyfall")
+denver.center(17,"Click here to Exit")
+end render()
+ 
+while true do local evt, button, x, y = os.pullEvent("mouse_click")
+if y == 7 then
+  term.setTextColour(colours.blue)
+  shell.run("pastebin run JknhWZ2a")
+  render()
+elseif y == 9 then
+  term.setTextColour(colours.blue)
+  shell.run("pastebin run MbvMiiCU")
+  render()
+elseif y == 11 then
+  term.setTextColour(colours.blue)
+  term.setBackgroundColour(colours.black)
+  term.clear()
+  shell.run("pastebin run wg6xLisV")
+  render()
+elseif y == 13 then
+  term.setTextColour(colours.blue)
+  shell.run("pastebin run fuL9BpjX")
+  render()
+elseif y == 15 then
+  term.setTextColour(colours.blue)
+  term.setBackgroundColour(colours.black)
+  term.clear()
+  shell.run("pastebin run mjyCbPks")
+  render()
+elseif y == 17 then
+  shell.run("/startup")
+  render()
+else
+end
+end
