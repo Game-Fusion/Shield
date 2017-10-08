@@ -1,10 +1,14 @@
 os.loadAPI("/Shield/APIs/denver")
+
 term.setBackgroundColour(colours.green)
 term.setTextColour(colours.white)
 term.clear()
 denver.centerSlow(8,"Welcome to Shield.")
-sleep(0.911)
+sleep(1)
 denver.center(10,"The future is now.")
 sleep(2)
-if fs.exists("disk/shieldapp") then shell.run ("disk/shieldapp")
+
+if fs.exists("disk/shieldapp") then
+  shell.run ("disk/shieldapp")
+  
 shell.run("/Shield/Menu")
