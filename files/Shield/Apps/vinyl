@@ -1,0 +1,7 @@
+return {
+  sName = "Vinyl Player",
+  nBackColour = colours.brown,
+  fFunction = function()
+  shell.run("/Shield/Vinyl")
+  end,
+}
