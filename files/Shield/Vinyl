@@ -1,0 +1,68 @@
+os.loadAPI("/Shield/APIs/Denver")
+
+term.setBackgroundColour(colours.blue)
+term.setTextColour(colours.white)
+term.clear()
+term.setBackgroundColour(colours.green)
+term.setTextColour(colours.white)
+term.setCursorPos(1,1)
+term.clearLine()
+denver.center(1,"Shield - MyPlay")
+term.setBackgroundColour(colours.blue)
+term.setTextColour(colours.white)
+denver.center(4,"If you inserted a disc and nothing happens,")
+denver.center(5,"try clicking anywhere on-screen")
+denver.center(8,"Please insert disc.")
+denver.center(17," Click here to Exit ")
+ 
+while true do
+  local evt, button, x, y = os.pullEvent("mouse_click")
+  if y == 17 then
+    shell.run("/Shield/Menu")
+  else
+ 
+function start()
+  term.clear()
+  denver.center(7,"Song Title:")
+end
+
+if disk.hasAudio("right") then
+  start()
+  disk.playAudio("right")
+  denver.center(9,disk.getAudioTitle("right"))
+  sleep(360)
+  os.shutdown()
+  
+  elseif disk.hasAudio("bottom") then
+    start()
+    denver.center(8,disk.getAudioTitle("bottom"))
+    disk.playAudio("bottom")
+    sleep(360)
+    os.shutdown()
+  elseif disk.hasAudio("left") then
+    start()
+    denver.center(9,disk.getAudioTitle("left"))
+    disk.playAudio("bottom")
+    sleep(360)
+    os.shutdown()
+  elseif disk.hasAudio("top") then
+    start()
+    center(9,disk.getAudioTitle("left"))
+    disk.playAudio("top")
+    sleep(360)
+    os.shutdown()
+  elseif disk.hasAudio("back") then
+    start()
+    center(9,disk.getAudioTitle("back"))
+    disk.playAudio("back")
+    sleep(360)
+    os.shutdown()
+  elseif disk.hasAudio("front") then start()
+    center(9,disk.getAudioTitle("front"))
+    disk.playAudio("front")
+    sleep(360)
+    os.shutdown()
+  else
+  end
+ end
+end
