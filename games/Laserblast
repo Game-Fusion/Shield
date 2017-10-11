@@ -5,9 +5,10 @@
         Destroy falling asteroids and collect powerups
        
         Written by: Nitrogen Fingers
+        Ported by: Mr_Iron2
 ]]--
  
-local version = 1.0
+local version = 1.1
 local reponame = "Laser Blast"
 local requiresColour = false
  
@@ -79,12 +80,12 @@ for i=1,math.random()*10+10 do
     y = math.ceil(math.random() * h-8) }
 end
 local landscape = {
-  [6]="                       _____________              ";
-  [5]="          _______     /             \\_____        ";
-  [4]="         /       \\___/____                \\_________";
-  [3]="    /---/                 \\                      ";
-  [2]="   /   /                   \\_________               ";
-  [1]="__/___/                              \\______________";
+  [6]="                      ______________              ";
+  [5]="          ___________//             \\_____        ";
+  [4]="     ___//           \_____                \\_________";
+  [3]=" __//                    \\                      ";
+  [2]="//                        \\_________               ";
+  [1]="                                     \\______________";
 }
  
 function drawHeader()
@@ -387,6 +388,6 @@ term.setCursorPos(w/2 - #go/2, 10)
 if term.isColour() then term.setTextColour(colours.white) end
 term.write(go)
 term.setCursorPos(1,h)
-sleep(5)
+sleep(3)
 redstone.setOutput("back", false)
 term.clear()
