@@ -1,0 +1,14 @@
+return {
+  sName = "Reboot"
+  nBackColour = colours.green,
+  fFunction = function(),
+  os.loadAPI("/Shield/APIs/denver")
+  term.setBackgroundColour(colours.grey)
+  term.setTextColour(colours.white)
+  term.clear()
+  denver.center(8,"Rebooting...")
+  sleep(1)
+  denver.yWave(black)
+  sleep(0.5)
+  os.reboot()
+end
