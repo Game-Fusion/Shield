@@ -18,8 +18,35 @@ function centerSlow(y,string)
   textutils.slowPrint(string)
 end
 
+-- C64 code
+-- For shorter, cleaner code
+
+bg = term.setBackgroundColour
+
+function setBg(col) -- thanks to MultMine for fix
+  term.setBackgroundColour(colours[col])
+end
+
+function setTxt(col)
+  term.setTextColour(colours[col])
+end
+
+function setText(col)
+  term.setTextColour(colours[col])
+end
+
+function clrBg(back)
+  term.setBackgroundColour(colours[back])
+  term.clear()
+end
+
+function clrLine(y)
+  term.setCursorPos(1,y)
+  term.clearLine()
+end
+
 -- Code from Subsistence
--- Abandoned(?) CrossBow GFX API
+-- Abandoned(?), powerful CrossBow GFX API
 
 function yWave(colour)
   local w,h = term.getSize()
