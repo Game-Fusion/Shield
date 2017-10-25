@@ -18,6 +18,18 @@ function centerSlow(y,string)
   textutils.slowPrint(string)
 end
 
+-- Code from Subsistence
+-- Abandoned(?) CrossBow GFX API
+
+function yWave(colour)
+  local w,h = term.getSize()
+  term.setBackgroundColour(colours[colour])
+  for i = 1,h do
+  line(i)
+  sleep(0.1)
+  end
+end
+
 -- Thanks to GopherAtl for making these buffer functions; they are from his API redirect
 
 local trueCursor={term.getCursorPos()}
