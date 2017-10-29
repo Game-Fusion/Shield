@@ -1,0 +1,7 @@
+return {
+  sName = "Firewolf",
+  nBackColour = colours.orange
+  fFunction = function()
+    shell.run("/Shield/firewolf")
+  end,
+}
