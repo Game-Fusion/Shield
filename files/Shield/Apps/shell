@@ -1,0 +1,10 @@
+return {
+  sName = "Shell",
+  nBackColour = colours.orange,
+  fFunction = function()
+  term.setBackgroundColour(colours.black)
+  term.clear()
+  term.setCursorPos(1, 1)
+  shell.run("shell")
+  end,
+}
