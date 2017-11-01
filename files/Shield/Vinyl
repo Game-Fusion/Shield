@@ -10,9 +10,7 @@ term.clearLine()
 denver.center(1,"Shield - MyPlay")
 term.setBackgroundColour(colours.blue)
 term.setTextColour(colours.white)
-denver.center(4,"If you inserted a disc and nothing happens,")
-denver.center(5,"try clicking anywhere on-screen")
-denver.center(8,"Please insert disc.")
+denver.center(4,"Click here to play an inserted disk")
 denver.center(17," Click here to Exit ")
  
 while true do
