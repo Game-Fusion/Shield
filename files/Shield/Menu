@@ -1,16 +1,18 @@
-local w,h = term.getSize()
- 
+local w,h = denver.winSize()
+
+os.loadAPI("/Shield/APIs/denver")
+
 if fs.exists("/Shield/Apps/") and not fs.isDir("/Shield/Apps") then
   print("Please delete 'items' then open the program.")
   return
 elseif not fs.isDir("/Shield/Apps/") then
-  fs.makeDir("/Shield/Apps/")
+  fs.makeDir("/Shield/Apps/") -- Why would this menu exist without apps anyway?
 end
  
 local items = {}
 local it2 = {}
  
-function loadMenuItems()
+local function loadMenuItems()
   for i,v in pairs(fs.list("/Shield/Apps")) do
     local ok, err = pcall(setfenv(loadfile("/Shield/Apps/"..v),getfenv()))
     if ok then
@@ -19,22 +21,10 @@ function loadMenuItems()
   end
 end
  
-function clearScr()
-  term.clear()
-  term.setCursorPos(1,1)
-end
- 
-function printCentered(string,y)
-  local x = (w/2)-(#string/2)
-  term.setCursorPos(x,y)
-  term.write(string)
-end
- 
-function renderMenu()
-  term.setBackgroundColour(colours.grey)
-  term.setTextColour(colours.white)
-  term.clear()
-  term.setCursorPos(2,2)
+local function renderMenu()
+  denver.clrBg("grey")
+  denver.setTxt("white")
+  denver.cursPos(2,2)
   term.write("Start")
   local itemsOnX = 0
   local y = 4
@@ -48,7 +38,7 @@ function renderMenu()
     itemsOnX = itemsOnX + 1
     local x = lastX
     paintutils.drawFilledBox(x,y,x+14,y+3,v.nBackColour)
-    term.setCursorPos(x,y+3)
+    denver.cursPos(x,y+3)
     term.write(v.sName)
     items[i].x = x
     items[i].y = y
