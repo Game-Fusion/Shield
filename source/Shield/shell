@@ -310,7 +310,7 @@ if #tArgs > 0 then
 else
     -- "shell"
     -- Print the header
-    term.setBackgroundColor( bgColour )
+    term.setBackgroundColour( bgColour )
     term.setTextColour( promptColour )
     print( "Shield v1.0" )
     term.setTextColour( textColour )
