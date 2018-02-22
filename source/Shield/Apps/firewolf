@@ -2,6 +2,6 @@ return {
   sName = "Firewolf",
   nBackColour = colours.orange
   fFunction = function()
-    shell.run("/Shield/firewolf")
+    shell.run("/Shield/firewolf.lua")
   end,
 }
