@@ -21,6 +21,4 @@ Every system these days seems to have the same, empty desktop design. Fear not! 
 ## Workstation workhorse
 Shield is a powerful day-to-day system and has plenty of programs suited to whatever job you throw at it. It has a competent file browser with GUI to allow for easy file management. With Shell and developer documentation available out of the box, Shield makes it easy for programmers in their day-to-day work with fluid file management and all of the programs you could want!
 
-Shield is one of the most future-proofed systems in existence; the system has been acknowledged by Revolution since 2015, and two years after its initial creation it is still being fine-tuned for perfection and getting updates. We're not finished with Shield, and we don't want to stop! We will offer support to anyone who looks for it and we will pump out all of the latest programs and games for the forseeable future.
-
-^ Coming soon
+Shield is one of the most future-proofed systems in existence; the system has been acknowledged by Revolution since 2015, and three years after its initial creation it is still being fine-tuned for perfection and getting updates. We're not finished with Shield, and we don't want to stop! We will offer support to anyone who looks for it and we will pump out all of the latest programs and games for the forseeable future.
