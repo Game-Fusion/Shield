@@ -1,12 +1,12 @@
-function gridTitle()
-  term.setBackgroundColour(colours.green)
-  term.setTextColour(colours.white)
-  term.clear()
+os.loadAPI("/Shield/APIs/denver") -- just making sure
+
+local function cloudTitle()
+  denver.clrBg("green")
+  denver.setTxt("white")
   denver.center(1,"Revolution Cloud")
-  term.setBackgroundColour(colours.white)
-  term.setCursorPos(1,2)
-  term.clearLine()
-  term.setBackgroundColour(colours.green)
+  denver.clrBg("white")
+  denver.clrLine(2)
+  denver.setBg("green")
 end
 gridTitle()
  
@@ -14,38 +14,42 @@ denver.center(4,"Welcome to Revolution Cloud!")
 denver.center(5,"This is Revolution's game streaming")
 denver.center(6,"service. You can stream great games straight")
 denver.center(7,"to your Shield!")
-sleep(2)
+sleep(2.5)
 
-function render()
-  gridTitle()
-  term.setTextColour(colours.white)
-  denver.center(5,"Select a Game:")
-  denver.center(7,"* Laser Blast")
-  denver.center(9,"* BATTLE")
-  denver.center(11,"* Solitaire")
-  denver.center(13,"* TRON")
-  denver.center(15,"* Skyfall")
+local function drawCloudMenu()
+  cloudTitle()
+  denver.setTxt("white")
+  denver.center(2,"Select a Game:")
+  denver.center(4,"* Laser Blast")
+  denver.center(6,"* BATTLE")
+  denver.center(8,"* Solitaire")
+  denver.center(10,"* TRON")
+  denver.center(12,"* Skyfall")
+  denver.center(14,"* CC Sand")
   denver.center(17,"Click here to Exit")
 end
-render()
+drawCloudMenu()
  
 while true do
   local evt, button, x, y = os.pullEvent("mouse_click")
-if y == 7 then
+if y == 4 then
   shell.run("pastebin run uBfD8SAe")
-  render()
-elseif y == 9 then
+  drawCloudMenu()
+elseif y == 6 then
   shell.run("pastebin run MbvMiiCU")
-  render()
-elseif y == 11 then
+  drawCloudMenu()
+elseif y == 8 then
   shell.run("pastebin run wg6xLisV")
-  render()
-elseif y == 13 then
+  drawCloudMenu()
+elseif y == 10 then
   shell.run("pastebin run fuL9BpjX")
-  render()
-elseif y == 15 then
+  drawCloudMenu()
+elseif y == 12 then
   shell.run("pastebin run mjyCbPks")
-  render()
+  drawCloudMenu()
+elseif y == 14 then
+  shell.run("pastebin run RbKvzJqp")
+  drawCloudMenu()
 elseif y == 17 then
   shell.run("/startup")
 else end
